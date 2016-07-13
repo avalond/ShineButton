@@ -25,8 +25,12 @@ import java.util.Random;
  **/
 public class ShineView extends View {
     private static final String TAG = "ShineView";
+
+    private static long FRAME_REFRESH_DELAY = 25;//default 10ms ,change to 25ms for saving cpu.
+
     ShineAnimator shineAnimator;
     ValueAnimator clickAnimator;
+
     ShineButton shineButton;
     private Paint paint;
     private Paint paint2;
@@ -68,7 +72,7 @@ public class ShineView extends View {
         super(context);
     }
 
-    public ShineView(Context context, ShineButton shineButton, ShineParams shineParams) {
+    public ShineView(Context context, final ShineButton shineButton, ShineParams shineParams) {
         super(context);
 
 
@@ -76,6 +80,7 @@ public class ShineView extends View {
 
 
         this.shineAnimator = new ShineAnimator(animDuration, shineDistanceMultiple, clickAnimDuration);
+        ValueAnimator.setFrameDelay(FRAME_REFRESH_DELAY);
         this.shineButton = shineButton;
 
 
@@ -97,6 +102,7 @@ public class ShineView extends View {
         paintSmall.setStrokeCap(Paint.Cap.ROUND);
 
         clickAnimator = ValueAnimator.ofFloat(0f, 1.1f);
+        ValueAnimator.setFrameDelay(FRAME_REFRESH_DELAY);
         clickAnimator.setDuration(clickAnimDuration);
         clickAnimator.setInterpolator(new EasingInterpolator(Ease.QUART_OUT));
         clickAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -116,6 +122,27 @@ public class ShineView extends View {
             public void onAnimationEnd(Animator animator) {
                 clickValue = 0;
                 invalidate();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        shineAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                shineButton.removeView(ShineView.this);
             }
 
             @Override
@@ -222,6 +249,7 @@ public class ShineView extends View {
             colorRandom[8] = Color.parseColor("#666666");
             colorRandom[9] = Color.parseColor("#999933");
         }
+
         public boolean allowRandomColor = false;
         public long animDuration = 1500;
         public int bigShineColor = 0;
@@ -231,7 +259,7 @@ public class ShineView extends View {
         public float shineTurnAngle = 20;
         public float shineDistanceMultiple = 1.5f;
         public float smallShineOffsetAngle = 20;
-        public int smallShineColor = colorRandom[6];
+        public int smallShineColor = 0;
     }
 
     private void initShineParams(ShineParams shineParams, ShineButton shineButton) {
@@ -245,6 +273,10 @@ public class ShineView extends View {
         clickAnimDuration = shineParams.clickAnimDuration;
         smallShineColor = shineParams.smallShineColor;
         bigShineColor = shineParams.bigShineColor;
+
+        if (smallShineColor == 0) {
+            smallShineColor = colorRandom[6];
+        }
 
         if (bigShineColor == 0) {
             bigShineColor = shineButton.getColor();

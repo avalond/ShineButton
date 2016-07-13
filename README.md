@@ -1,6 +1,9 @@
 # ShineButton
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ChadCSong/ShineButton/raw/master/LICENSE)
-[![license](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com)
+[![platform](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com)
+[![Build Status](https://travis-ci.org/ChadCSong/ShineButton.svg?branch=master)](https://travis-ci.org/ChadCSong/ShineButton)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ShineButton-green.svg?style=true)](https://android-arsenal.com/details/1/3846)
+[![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
 
 This is a UI lib for Android. Effects like shining.
 
@@ -14,9 +17,16 @@ This is a UI lib for Android. Effects like shining.
 or
 
 ```java
- shineButton = new ShineButton(Activity);
- shineButton.setBtn_color(int color);
- shineButton.setBtn_fill_color(int color);
+ ShineButton shineButtonJava = new ShineButton(this);
+ shineButtonJava.setBtnColor(Color.GRAY);
+ shineButtonJava.setBtnFillColor(Color.RED);
+ shineButtonJava.setShapeResource(R.raw.heart);
+ shineButtonJava.setAllowRandomColor(true);
+ LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
+ shineButtonJava.setLayoutParams(layoutParams);
+ if (linearLayout != null) {
+     linearLayout.addView(shineButtonJava);
+ }
 ```
 #### Simple Usage
 
@@ -99,14 +109,34 @@ app:enable_flashing="true"
 [EasingInterpolator](https://github.com/MasayukiSuda/EasingInterpolator)
 
 
-## Marven
+## Maven
 
-Will coming...
+```xml
+<dependency>
+  <groupId>com.sackcentury</groupId>
+  <artifactId>shinebutton</artifactId>
+  <version>0.1.2</version>
+  <type>aar</type>
+</dependency>
+```
+## Gradle
+
+```gradle
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+dependencies {
+    compile 'com.sackcentury:shinebutton:0.1.2'
+}
+```
+
 
 ## Further
 
-1, SVG support;
-2, Font support;
+1, SVG support;    
+2, Font support;    
 3, Image support...
 
 ##
